@@ -74,29 +74,35 @@ function resolveChallengeText(rawChallenge) {
 }
 
 const WEEK_DATA_API = "/api/week-data";
-const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbyUjajie5kDdbl6vEcoYE_vMYWokSbCdQEZMHNuhKhQtEx6aYEE1A9QtBQ2ZMhkFTkS/exec"; // Google Apps Script URL
+const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbzwxbU936UpfylvgFtMNJWCWbUOhFbGn4RpYSkl9kLdICW0CGNm7u8VsJQ59LTlqe17/exec"; // Google Apps Script URL
 const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
 const CAN_USE_LOCAL_WEEK_API = !IS_GITHUB_PAGES;
 const PUBLIC_WEEK_DATA_FILE = "week-data.json";
+const REMOTE_WEEK_API = WEEK_AUTH_API; // mismo Apps Script, acciones distintas
 
-async function verifyTeamPassword(team, password) {
-  if (!WEEK_AUTH_API) return false;
+async function callRemoteWeekApi(action, extraParams = {}) {
+  if (!REMOTE_WEEK_API) return null;
   try {
-    const body = new URLSearchParams({
-      action: "verifyTeamPassword",
-      team: String(team || ""),
-      password: String(password || "")
-    });
-    const res = await fetch(WEEK_AUTH_API, {
+    const body = new URLSearchParams(
+      Object.fromEntries(
+        Object.entries({ action, ...extraParams }).map(([k, v]) => [k, String(v ?? "")])
+      )
+    );
+    const res = await fetch(REMOTE_WEEK_API, {
       method: "POST",
       body
     });
-    if (!res.ok) return false;
+    if (!res.ok) return null;
     const payload = await res.json();
-    return Boolean(payload?.ok);
+    return payload;
   } catch (_) {
-    return false;
+    return null;
   }
+}
+
+async function verifyTeamPassword(team, password) {
+  const payload = await callRemoteWeekApi("verifyTeamPassword", { team, password });
+  return Boolean(payload?.ok);
 }
 
 function formatDateTimeLabel(dateValue) {
@@ -263,6 +269,12 @@ function normalizeWeekCapture(parsed, teams) {
 
 async function loadWeekCapture(storageKey, teams) {
   const fallback = createDefaultWeekCapture(teams);
+  if (REMOTE_WEEK_API) {
+    const payload = await callRemoteWeekApi("loadWeekData", { weekKey: storageKey });
+    if (payload?.ok && payload.data) {
+      return normalizeWeekCapture(payload.data, teams);
+    }
+  }
   if (CAN_USE_LOCAL_WEEK_API) {
     try {
       const res = await fetch(`${WEEK_DATA_API}?weekKey=${encodeURIComponent(storageKey)}`);
@@ -299,7 +311,14 @@ async function loadWeekCapture(storageKey, teams) {
 
 async function saveWeekCapture(storageKey, payload) {
   let apiSaved = false;
-  if (CAN_USE_LOCAL_WEEK_API) {
+  if (REMOTE_WEEK_API) {
+    const remote = await callRemoteWeekApi("saveWeekData", {
+      weekKey: storageKey,
+      data: JSON.stringify(payload)
+    });
+    apiSaved = Boolean(remote?.ok);
+  }
+  if (!apiSaved && CAN_USE_LOCAL_WEEK_API) {
     try {
       const res = await fetch(WEEK_DATA_API, {
         method: "PUT",
