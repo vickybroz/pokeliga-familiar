@@ -79,10 +79,14 @@ const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbyUjajie5kDdbl6vE
 async function verifyTeamPassword(team, password) {
   if (!WEEK_AUTH_API) return false;
   try {
+    const body = new URLSearchParams({
+      action: "verifyTeamPassword",
+      team: String(team || ""),
+      password: String(password || "")
+    });
     const res = await fetch(WEEK_AUTH_API, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "verifyTeamPassword", team, password })
+      body
     });
     if (!res.ok) return false;
     const payload = await res.json();
