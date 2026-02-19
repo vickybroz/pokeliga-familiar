@@ -75,6 +75,9 @@ function resolveChallengeText(rawChallenge) {
 
 const WEEK_DATA_API = "/api/week-data";
 const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbyUjajie5kDdbl6vEcoYE_vMYWokSbCdQEZMHNuhKhQtEx6aYEE1A9QtBQ2ZMhkFTkS/exec"; // Google Apps Script URL
+const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
+const CAN_USE_LOCAL_WEEK_API = !IS_GITHUB_PAGES;
+const PUBLIC_WEEK_DATA_FILE = "week-data.json";
 
 async function verifyTeamPassword(team, password) {
   if (!WEEK_AUTH_API) return false;
@@ -260,16 +263,30 @@ function normalizeWeekCapture(parsed, teams) {
 
 async function loadWeekCapture(storageKey, teams) {
   const fallback = createDefaultWeekCapture(teams);
-  try {
-    const res = await fetch(`${WEEK_DATA_API}?weekKey=${encodeURIComponent(storageKey)}`);
-    if (res.ok) {
-      const payload = await res.json();
-      if (payload?.data) {
-        return normalizeWeekCapture(payload.data, teams);
+  if (CAN_USE_LOCAL_WEEK_API) {
+    try {
+      const res = await fetch(`${WEEK_DATA_API}?weekKey=${encodeURIComponent(storageKey)}`);
+      if (res.ok) {
+        const payload = await res.json();
+        if (payload?.data) {
+          return normalizeWeekCapture(payload.data, teams);
+        }
       }
+    } catch (_) {
+      // Fallback below
     }
-  } catch (_) {
-    // Fallback below
+  } else {
+    try {
+      const res = await fetch(PUBLIC_WEEK_DATA_FILE, { cache: "no-store" });
+      if (res.ok) {
+        const published = await res.json();
+        if (published && typeof published === "object" && published[storageKey]) {
+          return normalizeWeekCapture(published[storageKey], teams);
+        }
+      }
+    } catch (_) {
+      // Fallback below
+    }
   }
   const raw = window.localStorage.getItem(storageKey);
   if (!raw) return fallback;
@@ -282,15 +299,17 @@ async function loadWeekCapture(storageKey, teams) {
 
 async function saveWeekCapture(storageKey, payload) {
   let apiSaved = false;
-  try {
-    const res = await fetch(WEEK_DATA_API, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ weekKey: storageKey, data: payload })
-    });
-    apiSaved = res.ok;
-  } catch (_) {
-    apiSaved = false;
+  if (CAN_USE_LOCAL_WEEK_API) {
+    try {
+      const res = await fetch(WEEK_DATA_API, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weekKey: storageKey, data: payload })
+      });
+      apiSaved = res.ok;
+    } catch (_) {
+      apiSaved = false;
+    }
   }
   if (!apiSaved) {
     window.localStorage.setItem(storageKey, JSON.stringify(payload));
@@ -556,7 +575,15 @@ function addPlayerIfMissing(players, weekLabels, playerName) {
 async function load() {
   const data = window.POKELIGA_DATA || await (await fetch("data.json")).json();
   const weekLabels = data.annual.weekLabels.slice();
+  if (!weekLabels.includes("2/2")) {
+    weekLabels.push("2/2");
+  }
   const annualPlayers = addPlayerIfMissing(data.annual.players.slice(), weekLabels, "Edu");
+  const annualPlayersWithWeeks = annualPlayers.map(p => ({
+    ...p,
+    weeks: Object.fromEntries(weekLabels.map(w => [w, Number(p.weeks?.[w] ?? 0)])),
+    total: Number(p.total ?? 0)
+  }));
 
   document.getElementById("generatedAt").textContent = `Actualizado: ${data.generatedAt}`;
 
@@ -593,6 +620,34 @@ async function load() {
   };
 
   const renderLiveCompetition = () => {
+    const hasAnyPoints = Object.values(weekCapture.byTeam || {}).some(teamData =>
+      Object.values(teamData?.playerPoints || {}).some(value => Number(value || 0) > 0)
+    );
+    const hasAnyFinish = Object.values(weekCapture.byTeam || {}).some(teamData => Boolean(teamData?.finishTime));
+    const hasChallenge = Boolean(String(weekCapture.challenge || "").trim());
+    const hasTarget = Number(weekCapture.targetTotal || 0) > 0;
+    const hasLiveData = hasChallenge || hasTarget || hasAnyFinish || hasAnyPoints;
+
+    const liveTeamsTitle = document.getElementById("liveTeamsTitle");
+    const liveParticipantsTitle = document.getElementById("liveParticipantsTitle");
+    const liveMetaEl = document.getElementById("liveMeta");
+    const liveTeamsEl = document.getElementById("liveTeams");
+    const liveParticipantsEl = document.getElementById("liveParticipants");
+
+    if (!hasLiveData) {
+      liveMetaEl.classList.remove("meta-grid");
+      liveMetaEl.innerHTML = `<p class="muted">todavia sin datos</p>`;
+      liveTeamsTitle.classList.add("is-hidden");
+      liveParticipantsTitle.classList.add("is-hidden");
+      liveTeamsEl.innerHTML = "";
+      liveParticipantsEl.innerHTML = "";
+      return;
+    }
+
+    liveMetaEl.classList.add("meta-grid");
+    liveTeamsTitle.classList.remove("is-hidden");
+    liveParticipantsTitle.classList.remove("is-hidden");
+
     const live = calculateLiveCompetition(currentWeekTeams, weekCapture, currentWeekStart, currentWeekEnd);
     const liveMeta = [
       ["Semana", live.meta.week, "Competencia actual en curso."],
@@ -603,12 +658,12 @@ async function load() {
       ["Ritmo oficial", Number(live.meta.officialRate).toFixed(2), "Objetivo de cantidad por hora segun el total configurado."],
       ["Media", Number(live.meta.mediaQuantity).toFixed(2), "Cantidad promedio objetivo por participante."]
     ];
-    document.getElementById("liveMeta").innerHTML = buildMetaCards(liveMeta);
-    document.getElementById("liveTeams").innerHTML = makeTable(
+    liveMetaEl.innerHTML = buildMetaCards(liveMeta);
+    liveTeamsEl.innerHTML = makeTable(
       ["Equipo", "Puesto", "Hora final", "Horas", "Puntos"],
       live.teams.map(t => [teamPill(t.team), t.place <= 3 ? topBadge(t.place - 1) : String(t.place), t.finishTime, t.hours, t.points])
     );
-    document.getElementById("liveParticipants").innerHTML = makeTable(
+    liveParticipantsEl.innerHTML = makeTable(
       ["Pos", "Nombre", "Equipo", "Cantidad", "Plus Vel", "Pts Equipo", "Pts Cantidad", "Pts Velocidad", "Total"],
       denseRankByScore(live.participants, "totalPoints").map(({ item: p, rank }) => [
         rank <= 3 ? topBadge(rank - 1) : String(rank),
@@ -702,7 +757,7 @@ async function load() {
     const allowed = team ? await verifyTeamPassword(team, password) : false;
     if (!allowed) {
       authError.textContent = WEEK_AUTH_API
-        ? "Password incorrecta."
+        ? "No se pudo validar password. Revisa Apps Script (deploy en Anyone y doPost habilitado)."
         : "Falta configurar WEEK_AUTH_API (Google Apps Script).";
       authError.classList.remove("is-hidden");
       return;
@@ -751,7 +806,7 @@ async function load() {
     closeModal();
   });
 
-  const playersByTotal = annualPlayers
+  const playersByTotal = annualPlayersWithWeeks
     .slice()
     .sort((a, b) => b.total - a.total);
 
@@ -763,7 +818,7 @@ async function load() {
   document.getElementById("annualRanking").innerHTML = makeTable(["Puesto", "Jugador", "Total"], rankingRows);
 
   const annualColumns = ["Jugador", ...weekLabels, "Total"];
-  const annualRows = annualPlayers
+  const annualRows = annualPlayersWithWeeks
     .slice()
     .sort((a, b) => a.player.localeCompare(b.player, "es", { sensitivity: "base" }))
     .map(p => [
@@ -772,6 +827,10 @@ async function load() {
       p.total
     ]);
   document.getElementById("annualTable").innerHTML = makeTable(annualColumns, annualRows);
+  const annualTableEl = document.querySelector("#annualTable table");
+  if (annualTableEl) {
+    annualTableEl.classList.add("annual-weekly-table");
+  }
 
   const weeklyToggle = document.getElementById("weeklyToggle");
   const weeklyTableContainer = document.getElementById("weeklyTableContainer");

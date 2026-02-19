@@ -150,6 +150,26 @@ tr:hover td {
   background: #f7fbff;
 }
 
+.annual-weekly-table {
+  min-width: 1080px;
+}
+
+.annual-weekly-table th:first-child,
+.annual-weekly-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #f8fbff;
+}
+
+.annual-weekly-table th:last-child,
+.annual-weekly-table td:last-child {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #f8fbff;
+}
+
 .badge {
   display: inline-block;
   padding: 0.15rem 0.5rem;
