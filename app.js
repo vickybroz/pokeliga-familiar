@@ -74,7 +74,7 @@ function resolveChallengeText(rawChallenge) {
 }
 
 const WEEK_DATA_API = "/api/week-data";
-const WEEK_AUTH_API = ""; // Google Apps Script URL
+const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbyUjajie5kDdbl6vEcoYE_vMYWokSbCdQEZMHNuhKhQtEx6aYEE1A9QtBQ2ZMhkFTkS/exec"; // Google Apps Script URL
 
 async function verifyTeamPassword(team, password) {
   if (!WEEK_AUTH_API) return false;
