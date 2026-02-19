@@ -1,0 +1,123 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokeLiga Familiar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">PokeLiga</p>
+    <h1>PokeLiga Familiar</h1>
+    <p id="generatedAt" class="muted"></p>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Equipos de Esta Semana</h2>
+      <div id="currentWeekMeta" class="meta-grid"></div>
+      <div id="currentWeekTeams" class="team-groups"></div>
+      <p id="nextDrawCountdown" class="countdown-note"></p>
+      <div class="week-admin-row">
+        <button id="openWeekAdmin" class="toggle-btn" type="button">Cargar puntos del equipo</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Competencia en Curso</h2>
+      <div id="liveMeta" class="meta-grid"></div>
+      <h3>Equipos</h3>
+      <div id="liveTeams" class="table-wrap"></div>
+      <h3>Calculos por Participante</h3>
+      <div id="liveParticipants" class="table-wrap"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Tabla Anual</h2>
+      <div id="annualRanking"></div>
+      <button id="weeklyToggle" class="toggle-btn" type="button" aria-expanded="false" aria-controls="weeklyTableContainer">
+        Puntos semanales de los jugadores
+      </button>
+      <div id="weeklyTableContainer" class="is-hidden">
+        <div id="annualTable" class="table-wrap"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Ultima Competencia</h2>
+      <div id="latestMeta" class="meta-grid"></div>
+      <h3>Equipos</h3>
+      <div id="latestTeams" class="table-wrap"></div>
+      <h3>Calculos por Participante</h3>
+      <div id="latestParticipants" class="table-wrap"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Historico Semanal</h2>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </main>
+
+  <div id="weekModal" class="modal-backdrop is-hidden" aria-hidden="true">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="weekModalTitle">
+      <header class="modal-head">
+        <h3 id="weekModalTitle">Carga semanal por equipo</h3>
+        <button id="closeWeekModal" class="modal-close" type="button" aria-label="Cerrar">x</button>
+      </header>
+
+      <form id="weekAuthForm" class="modal-form">
+        <label>
+          Equipo
+          <select id="authTeam" required>
+            <option value="">Seleccionar</option>
+            <option value="Naranja">Naranja</option>
+            <option value="Amarillo">Amarillo</option>
+            <option value="Celeste">Celeste</option>
+          </select>
+        </label>
+        <label>
+          Password del equipo
+          <input id="authPassword" type="password" required />
+        </label>
+        <p id="authError" class="form-error is-hidden">Password incorrecta.</p>
+        <div class="modal-actions">
+          <button class="toggle-btn" type="submit">Ingresar</button>
+        </div>
+      </form>
+
+      <form id="weekDataForm" class="modal-form is-hidden">
+        <label>
+          Desafio de la competencia
+          <input id="weekChallengeInput" type="text" />
+        </label>
+        <p id="weekDataError" class="form-error is-hidden"></p>
+        <label>
+          Numero total a conseguir
+          <input id="weekTargetInput" type="number" min="0" step="1" />
+        </label>
+        <label>
+          Equipo cargando
+          <input id="weekTeamReadOnly" type="text" readonly />
+        </label>
+        <label>
+          Horario de finalizacion del equipo
+          <input id="weekFinishInput" type="datetime-local" />
+        </label>
+        <div id="weekPlayersInputs" class="players-input-grid"></div>
+        <div class="modal-actions">
+          <button class="toggle-btn" type="submit">Guardar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
+

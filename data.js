@@ -1,0 +1,1848 @@
+﻿window.POKELIGA_DATA = {
+    "generatedAt":  "2026-02-19 18:32:55",
+    "scoring":  {
+                    "team":  [
+                                 {
+                                     "position":  1,
+                                     "points":  4
+                                 },
+                                 {
+                                     "position":  2,
+                                     "points":  3
+                                 },
+                                 {
+                                     "position":  3,
+                                     "points":  2
+                                 }
+                             ],
+                    "quantity":  [
+                                     {
+                                         "position":  1,
+                                         "points":  4
+                                     },
+                                     {
+                                         "position":  2,
+                                         "points":  3
+                                     },
+                                     {
+                                         "position":  3,
+                                         "points":  2
+                                     }
+                                 ],
+                    "speed":  [
+                                  {
+                                      "position":  1,
+                                      "points":  4
+                                  },
+                                  {
+                                      "position":  2,
+                                      "points":  3
+                                  },
+                                  {
+                                      "position":  3,
+                                      "points":  2
+                                  }
+                              ],
+                    "mediaQuantity":  1,
+                    "mediaSpeed":  1
+                },
+    "annual":  {
+                   "weekLabels":  [
+                                      "1/12",
+                                      "2/12",
+                                      "3/12",
+                                      "4/12",
+                                      "1/1",
+                                      "2/1",
+                                      "3/1",
+                                      "4/1",
+                                      "1/2"
+                                  ],
+                   "players":  [
+                                   {
+                                       "player":  "Abi",
+                                       "weeks":  {
+                                                     "1/12":  0,
+                                                     "2/12":  3,
+                                                     "3/12":  3,
+                                                     "4/12":  3,
+                                                     "1/1":  12,
+                                                     "2/1":  5,
+                                                     "3/1":  3,
+                                                     "4/1":  2,
+                                                     "1/2":  2
+                                                 },
+                                       "total":  33
+                                   },
+                                   {
+                                       "player":  "Chiqui",
+                                       "weeks":  {
+                                                     "1/12":  4,
+                                                     "2/12":  3,
+                                                     "3/12":  4,
+                                                     "4/12":  3,
+                                                     "1/1":  12,
+                                                     "2/1":  6,
+                                                     "3/1":  5,
+                                                     "4/1":  6,
+                                                     "1/2":  8
+                                                 },
+                                       "total":  51
+                                   },
+                                   {
+                                       "player":  "Estela",
+                                       "weeks":  {
+                                                     "1/12":  2,
+                                                     "2/12":  2,
+                                                     "3/12":  4,
+                                                     "4/12":  4,
+                                                     "1/1":  3,
+                                                     "2/1":  4,
+                                                     "3/1":  3,
+                                                     "4/1":  7,
+                                                     "1/2":  8
+                                                 },
+                                       "total":  37
+                                   },
+                                   {
+                                       "player":  "Facu",
+                                       "weeks":  {
+                                                     "1/12":  12,
+                                                     "2/12":  4,
+                                                     "3/12":  6,
+                                                     "4/12":  7,
+                                                     "1/1":  0,
+                                                     "2/1":  3,
+                                                     "3/1":  2,
+                                                     "4/1":  2,
+                                                     "1/2":  11
+                                                 },
+                                       "total":  47
+                                   },
+                                   {
+                                       "player":  "Gio",
+                                       "weeks":  {
+                                                     "1/12":  4,
+                                                     "2/12":  4,
+                                                     "3/12":  2,
+                                                     "4/12":  4,
+                                                     "1/1":  3,
+                                                     "2/1":  6,
+                                                     "3/1":  7,
+                                                     "4/1":  7,
+                                                     "1/2":  4
+                                                 },
+                                       "total":  41
+                                   },
+                                   {
+                                       "player":  "Lu",
+                                       "weeks":  {
+                                                     "1/12":  6,
+                                                     "2/12":  3,
+                                                     "3/12":  3,
+                                                     "4/12":  5,
+                                                     "1/1":  3,
+                                                     "2/1":  7,
+                                                     "3/1":  7,
+                                                     "4/1":  7,
+                                                     "1/2":  4
+                                                 },
+                                       "total":  45
+                                   },
+                                   {
+                                       "player":  "Maru C",
+                                       "weeks":  {
+                                                     "1/12":  3,
+                                                     "2/12":  12,
+                                                     "3/12":  2,
+                                                     "4/12":  6,
+                                                     "1/1":  4,
+                                                     "2/1":  2,
+                                                     "3/1":  2,
+                                                     "4/1":  3,
+                                                     "1/2":  3
+                                                 },
+                                       "total":  37
+                                   },
+                                   {
+                                       "player":  "Maru M",
+                                       "weeks":  {
+                                                     "1/12":  8,
+                                                     "2/12":  2,
+                                                     "3/12":  3,
+                                                     "4/12":  6,
+                                                     "1/1":  7,
+                                                     "2/1":  7,
+                                                     "3/1":  5,
+                                                     "4/1":  10,
+                                                     "1/2":  3
+                                                 },
+                                       "total":  51
+                                   },
+                                   {
+                                       "player":  "Nico",
+                                       "weeks":  {
+                                                     "1/12":  4,
+                                                     "2/12":  8,
+                                                     "3/12":  3,
+                                                     "4/12":  8,
+                                                     "1/1":  5,
+                                                     "2/1":  9,
+                                                     "3/1":  2,
+                                                     "4/1":  4,
+                                                     "1/2":  11
+                                                 },
+                                       "total":  54
+                                   },
+                                   {
+                                       "player":  "Samy",
+                                       "weeks":  {
+                                                     "1/12":  5,
+                                                     "2/12":  4,
+                                                     "3/12":  8,
+                                                     "4/12":  3,
+                                                     "1/1":  3,
+                                                     "2/1":  6,
+                                                     "3/1":  5,
+                                                     "4/1":  5,
+                                                     "1/2":  4
+                                                 },
+                                       "total":  43
+                                   },
+                                   {
+                                       "player":  "Vicky",
+                                       "weeks":  {
+                                                     "1/12":  7,
+                                                     "2/12":  7,
+                                                     "3/12":  4,
+                                                     "4/12":  11,
+                                                     "1/1":  6,
+                                                     "2/1":  10,
+                                                     "3/1":  4,
+                                                     "4/1":  8,
+                                                     "1/2":  7
+                                                 },
+                                       "total":  64
+                                   }
+                               ],
+                   "ranking":  [
+                                   {
+                                       "position":  1,
+                                       "player":  "Maru M",
+                                       "total":  51
+                                   },
+                                   {
+                                       "position":  2,
+                                       "player":  "Maru C",
+                                       "total":  37
+                                   },
+                                   {
+                                       "position":  3,
+                                       "player":  "Nico",
+                                       "total":  54
+                                   },
+                                   {
+                                       "position":  4,
+                                       "player":  "Vicky",
+                                       "total":  64
+                                   },
+                                   {
+                                       "position":  5,
+                                       "player":  "Samy",
+                                       "total":  43
+                                   },
+                                   {
+                                       "position":  6,
+                                       "player":  "Lu",
+                                       "total":  45
+                                   },
+                                   {
+                                       "position":  7,
+                                       "player":  "Chiqui",
+                                       "total":  51
+                                   },
+                                   {
+                                       "position":  8,
+                                       "player":  "Abi",
+                                       "total":  33
+                                   },
+                                   {
+                                       "position":  9,
+                                       "player":  "Estela",
+                                       "total":  37
+                                   },
+                                   {
+                                       "position":  10,
+                                       "player":  "Gio",
+                                       "total":  41
+                                   },
+                                   {
+                                       "position":  11,
+                                       "player":  "Facu",
+                                       "total":  47
+                                   }
+                               ]
+               },
+    "latestCompetition":  {
+                              "week":  "1/2",
+                              "sheet":  "12",
+                              "challenge":  "Gira 150 pokeparadas",
+                              "start":  "02/02/2026 10:00",
+                              "end":  "09/02/2026 22:00",
+                              "durationHours":  180,
+                              "officialRate":  0.83333333333333337,
+                              "mediaQuantity":  40.909090909090907,
+                              "teams":  [
+                                            {
+                                                "team":  "Amarillo",
+                                                "place":  1,
+                                                "finishTime":  "03/02/2026 13:43",
+                                                "hours":  27.716666666732635,
+                                                "points":  4
+                                            },
+                                            {
+                                                "team":  "Naranja",
+                                                "place":  2,
+                                                "finishTime":  "03/02/2026 15:12",
+                                                "hours":  29.200000000011642,
+                                                "points":  3
+                                            },
+                                            {
+                                                "team":  "Celeste",
+                                                "place":  3,
+                                                "finishTime":  "05/02/2026 11:06",
+                                                "hours":  73.100000000093132,
+                                                "points":  2
+                                            }
+                                        ],
+                              "participants":  [
+                                                   {
+                                                       "position":  1,
+                                                       "name":  "Nico",
+                                                       "team":  "Naranja",
+                                                       "quantity":  75,
+                                                       "speedBonus":  3,
+                                                       "teamPoints":  3,
+                                                       "quantityPoints":  4,
+                                                       "speedPoints":  4,
+                                                       "totalPoints":  11
+                                                   },
+                                                   {
+                                                       "position":  2,
+                                                       "name":  "Estela",
+                                                       "team":  "Celeste",
+                                                       "quantity":  75,
+                                                       "speedBonus":  1,
+                                                       "teamPoints":  2,
+                                                       "quantityPoints":  4,
+                                                       "speedPoints":  2,
+                                                       "totalPoints":  8
+                                                   },
+                                                   {
+                                                       "position":  3,
+                                                       "name":  "Facu",
+                                                       "team":  "Amarillo",
+                                                       "quantity":  74,
+                                                       "speedBonus":  3,
+                                                       "teamPoints":  4,
+                                                       "quantityPoints":  3,
+                                                       "speedPoints":  4,
+                                                       "totalPoints":  11
+                                                   },
+                                                   {
+                                                       "position":  4,
+                                                       "name":  "Lu",
+                                                       "team":  "Celeste",
+                                                       "quantity":  59,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  2,
+                                                       "quantityPoints":  2,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  4
+                                                   },
+                                                   {
+                                                       "position":  5,
+                                                       "name":  "Vicky",
+                                                       "team":  "Naranja",
+                                                       "quantity":  57,
+                                                       "speedBonus":  2,
+                                                       "teamPoints":  3,
+                                                       "quantityPoints":  1,
+                                                       "speedPoints":  3,
+                                                       "totalPoints":  7
+                                                   },
+                                                   {
+                                                       "position":  6,
+                                                       "name":  "Chiqui",
+                                                       "team":  "Amarillo",
+                                                       "quantity":  51,
+                                                       "speedBonus":  2,
+                                                       "teamPoints":  4,
+                                                       "quantityPoints":  1,
+                                                       "speedPoints":  3,
+                                                       "totalPoints":  8
+                                                   },
+                                                   {
+                                                       "position":  7,
+                                                       "name":  "Samy",
+                                                       "team":  "Amarillo",
+                                                       "quantity":  22,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  4,
+                                                       "quantityPoints":  0,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  4
+                                                   },
+                                                   {
+                                                       "position":  8,
+                                                       "name":  "Maru M",
+                                                       "team":  "Naranja",
+                                                       "quantity":  16,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  3,
+                                                       "quantityPoints":  0,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  3
+                                                   },
+                                                   {
+                                                       "position":  9,
+                                                       "name":  "Abi",
+                                                       "team":  "Celeste",
+                                                       "quantity":  16,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  2,
+                                                       "quantityPoints":  0,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  2
+                                                   },
+                                                   {
+                                                       "position":  10,
+                                                       "name":  "Gio",
+                                                       "team":  "Amarillo",
+                                                       "quantity":  3,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  4,
+                                                       "quantityPoints":  0,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  4
+                                                   },
+                                                   {
+                                                       "position":  11,
+                                                       "name":  "Maru C",
+                                                       "team":  "Naranja",
+                                                       "quantity":  2,
+                                                       "speedBonus":  0,
+                                                       "teamPoints":  3,
+                                                       "quantityPoints":  0,
+                                                       "speedPoints":  0,
+                                                       "totalPoints":  3
+                                                   }
+                                               ]
+                          },
+    "history":  [
+                    {
+                        "week":  "1/12",
+                        "sheet":  "112",
+                        "challenge":  "Girar 150 Poképaradas",
+                        "start":  "09/12/2025 22:00",
+                        "end":  "16/12/2025 22:00",
+                        "durationHours":  168,
+                        "officialRate":  0.8928571428571429,
+                        "mediaQuantity":  45,
+                        "teams":  [
+                                      {
+                                          "team":  "Rojo",
+                                          "place":  1,
+                                          "finishTime":  "10/12/2025 8:36",
+                                          "hours":  10.599999999976717,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  2,
+                                          "finishTime":  "10/12/2025 14:04",
+                                          "hours":  16.066666666651145,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  3,
+                                          "finishTime":  "10/12/2025 15:19",
+                                          "hours":  17.316666666709352,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Facu",
+                                                 "team":  "Rojo",
+                                                 "quantity":  93,
+                                                 "speedBonus":  9,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  12
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Vicky",
+                                                 "team":  "Celeste",
+                                                 "quantity":  62,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Lu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  57,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Celeste",
+                                                 "quantity":  56,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Maru M",
+                                                 "team":  "Rojo",
+                                                 "quantity":  53,
+                                                 "speedBonus":  5,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Samy",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  49,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  44,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Maru C",
+                                                 "team":  "Celeste",
+                                                 "quantity":  26,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Estela",
+                                                 "team":  "Celeste",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Nico",
+                                                 "team":  "Rojo",
+                                                 "quantity":  4,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Abi",
+                                                 "team":  "",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  0,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  0
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "2/12",
+                        "sheet":  "212",
+                        "challenge":  "Completar 25 tareas de investigacion",
+                        "start":  "15/12/2025 22:00",
+                        "end":  "23/12/2025 22:00",
+                        "durationHours":  192,
+                        "officialRate":  0.390625,
+                        "mediaQuantity":  6.8181818181818183,
+                        "teams":  [
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  1,
+                                          "finishTime":  "16/12/2025 2:51",
+                                          "hours":  4.8500000000931323,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  2,
+                                          "finishTime":  "16/12/2025 10:52",
+                                          "hours":  12.866666666697711,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  3,
+                                          "finishTime":  "16/12/2025 13:22",
+                                          "hours":  15.366666666639503,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Maru C",
+                                                 "team":  "Celeste",
+                                                 "quantity":  16,
+                                                 "speedBonus":  8,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  12
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  11,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  10,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Facu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  9,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Lu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  9,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Vicky",
+                                                 "team":  "Celeste",
+                                                 "quantity":  6,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Maru M",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Samy",
+                                                 "team":  "Celeste",
+                                                 "quantity":  3,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Abi",
+                                                 "team":  "Naranja",
+                                                 "quantity":  3,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Naranja",
+                                                 "quantity":  2,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Estela",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "3/12",
+                        "sheet":  "312",
+                        "challenge":  "Explora 30 kms",
+                        "start":  "22/12/2025",
+                        "end":  "29/12/2025",
+                        "durationHours":  168,
+                        "officialRate":  0.44642857142857145,
+                        "mediaQuantity":  8.1818181818181817,
+                        "teams":  [
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  1,
+                                          "finishTime":  "23/12/2025 23:43",
+                                          "hours":  47.71666666661622,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  2,
+                                          "finishTime":  "24/12/2025 12:16",
+                                          "hours":  60.266666666662786,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  3,
+                                          "finishTime":  "25/12/2025 21:32",
+                                          "hours":  93.533333333325572,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Samy",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  18,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Facu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  13,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Estela",
+                                                 "team":  "Celeste",
+                                                 "quantity":  11,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Maru M",
+                                                 "team":  "Celeste",
+                                                 "quantity":  9,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Lu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  7,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Gio",
+                                                 "team":  "Celeste",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Vicky",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Abi",
+                                                 "team":  "Naranja",
+                                                 "quantity":  5,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  5,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Maru C",
+                                                 "team":  "Celeste",
+                                                 "quantity":  4,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "4/12",
+                        "sheet":  "412",
+                        "challenge":  "Atrapa 500 pokemones",
+                        "start":  "29/12/2025 22:00",
+                        "end":  "5/1/2026 22:00",
+                        "durationHours":  168,
+                        "officialRate":  0.44642857142857145,
+                        "mediaQuantity":  136.36363636363637,
+                        "teams":  [
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  1,
+                                          "finishTime":  "30/12/2025 12:17",
+                                          "hours":  14.283333333441988,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  2,
+                                          "finishTime":  "30/12/2025 14:52",
+                                          "hours":  16.866666666639503,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  3,
+                                          "finishTime":  "3/1/2026 0:00",
+                                          "hours":  98.000000000058208,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Facu",
+                                                 "team":  "Celeste",
+                                                 "quantity":  400,
+                                                 "speedBonus":  9,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Vicky",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  248,
+                                                 "speedBonus":  38,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  11
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  245,
+                                                 "speedBonus":  32,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Lu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  139,
+                                                 "speedBonus":  18,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Maru M",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  127,
+                                                 "speedBonus":  19,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Maru C",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  125,
+                                                 "speedBonus":  19,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Gio",
+                                                 "team":  "Naranja",
+                                                 "quantity":  96,
+                                                 "speedBonus":  12,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Celeste",
+                                                 "quantity":  52,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Abi",
+                                                 "team":  "Celeste",
+                                                 "quantity":  48,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Samy",
+                                                 "team":  "Naranja",
+                                                 "quantity":  20,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Estela",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "1/1",
+                        "sheet":  "11",
+                        "challenge":  "Girar 150 Pokeparadas",
+                        "start":  "05/01/2026 22:00",
+                        "end":  "12/01/2026 22:00",
+                        "durationHours":  168,
+                        "officialRate":  0.44642857142857145,
+                        "mediaQuantity":  40.909090909090907,
+                        "teams":  [
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  1,
+                                          "finishTime":  "06/01/2026 0:48",
+                                          "hours":  2.8000000000465661,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  2,
+                                          "finishTime":  "06/01/2026 10:04",
+                                          "hours":  12.066666666709352,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  3,
+                                          "finishTime":  "06/01/2026 14:41",
+                                          "hours":  16.683333333407063,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Celeste",
+                                                 "quantity":  75,
+                                                 "speedBonus":  59,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  12
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Abi",
+                                                 "team":  "Celeste",
+                                                 "quantity":  75,
+                                                 "speedBonus":  59,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  12
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Vicky",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  74,
+                                                 "speedBonus":  9,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Maru M",
+                                                 "team":  "Naranja",
+                                                 "quantity":  67,
+                                                 "speedBonus":  12,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  41,
+                                                 "speedBonus":  7,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Maru C",
+                                                 "team":  "Naranja",
+                                                 "quantity":  40,
+                                                 "speedBonus":  7,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Lu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  39,
+                                                 "speedBonus":  5,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  21,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Estela",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  16,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Samy",
+                                                 "team":  "Naranja",
+                                                 "quantity":  2,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Facu",
+                                                 "team":  "",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  0,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  0
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "2/1",
+                        "sheet":  "21",
+                        "challenge":  "25 tareas de investigacion",
+                        "start":  "13/01/2026 10:00",
+                        "end":  "20/01/2026 22:00",
+                        "durationHours":  180,
+                        "officialRate":  0.41666666666666669,
+                        "mediaQuantity":  6.8181818181818183,
+                        "teams":  [
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  1,
+                                          "finishTime":  "13/01/2026 13:30",
+                                          "hours":  3.5000000000582077,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  2,
+                                          "finishTime":  "13/01/2026 15:00",
+                                          "hours":  5.0000000000582077,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  3,
+                                          "finishTime":  "13/01/2026 19:27",
+                                          "hours":  9.45000000006985,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Maru M",
+                                                 "team":  "Celeste",
+                                                 "quantity":  13,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Gio",
+                                                 "team":  "Celeste",
+                                                 "quantity":  12,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Nico",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  12,
+                                                 "speedBonus":  5,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  9
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Vicky",
+                                                 "team":  "Naranja",
+                                                 "quantity":  10,
+                                                 "speedBonus":  6,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  10
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  9,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Lu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  7,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Samy",
+                                                 "team":  "Naranja",
+                                                 "quantity":  6,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Estela",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  4,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Abi",
+                                                 "team":  "Naranja",
+                                                 "quantity":  2,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Maru C",
+                                                 "team":  "Celeste",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Facu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "3/1",
+                        "sheet":  "31",
+                        "challenge":  "Camina 30 km",
+                        "start":  "20/01/2026 10:00",
+                        "end":  "26/01/2026 22:00",
+                        "durationHours":  156,
+                        "officialRate":  0.48076923076923078,
+                        "mediaQuantity":  8.1818181818181817,
+                        "teams":  [
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  1,
+                                          "finishTime":  "21/01/2026 12:58",
+                                          "hours":  26.966666666732635,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  2,
+                                          "finishTime":  "21/01/2026 18:42",
+                                          "hours":  32.700000000069849,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  3,
+                                          "finishTime":  "21/01/2026 21:09",
+                                          "hours":  35.150000000023283,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  15,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Samy",
+                                                 "team":  "Naranja",
+                                                 "quantity":  14,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Lu",
+                                                 "team":  "Celeste",
+                                                 "quantity":  14,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Maru M",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  10,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Celeste",
+                                                 "quantity":  9,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Estela",
+                                                 "team":  "Naranja",
+                                                 "quantity":  9,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Vicky",
+                                                 "team":  "Celeste",
+                                                 "quantity":  7,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  6,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Facu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  4,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Maru C",
+                                                 "team":  "Naranja",
+                                                 "quantity":  2,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Abi",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  0,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "4/1",
+                        "sheet":  "41",
+                        "challenge":  "Atrapar 500 pokemones",
+                        "start":  "27/01/2026 10:00",
+                        "end":  "02/02/2026 22:00",
+                        "durationHours":  156,
+                        "officialRate":  3.2051282051282053,
+                        "mediaQuantity":  136.36363636363637,
+                        "teams":  [
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  1,
+                                          "finishTime":  "27/01/2026 18:22",
+                                          "hours":  8.36666666669771,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  2,
+                                          "finishTime":  "28/01/2026 22:09",
+                                          "hours":  36.1500000001397,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  3,
+                                          "finishTime":  "28/01/2026 23:41",
+                                          "hours":  37.683333333407063,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Vicky",
+                                                 "team":  "Naranja",
+                                                 "quantity":  250,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Estela",
+                                                 "team":  "Celeste",
+                                                 "quantity":  213,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Maru M",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  198,
+                                                 "speedBonus":  7,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  10
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  167,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Samy",
+                                                 "team":  "Celeste",
+                                                 "quantity":  156,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  1,
+                                                 "totalPoints":  5
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  126,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Lu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  120,
+                                                 "speedBonus":  4,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Maru C",
+                                                 "team":  "Celeste",
+                                                 "quantity":  71,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Facu",
+                                                 "team":  "Naranja",
+                                                 "quantity":  60,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  56,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  6
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Abi",
+                                                 "team":  "Naranja",
+                                                 "quantity":  23,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             }
+                                         ]
+                    },
+                    {
+                        "week":  "1/2",
+                        "sheet":  "12",
+                        "challenge":  "Gira 150 pokeparadas",
+                        "start":  "02/02/2026 10:00",
+                        "end":  "09/02/2026 22:00",
+                        "durationHours":  180,
+                        "officialRate":  0.83333333333333337,
+                        "mediaQuantity":  40.909090909090907,
+                        "teams":  [
+                                      {
+                                          "team":  "Amarillo",
+                                          "place":  1,
+                                          "finishTime":  "03/02/2026 13:43",
+                                          "hours":  27.716666666732635,
+                                          "points":  4
+                                      },
+                                      {
+                                          "team":  "Naranja",
+                                          "place":  2,
+                                          "finishTime":  "03/02/2026 15:12",
+                                          "hours":  29.200000000011642,
+                                          "points":  3
+                                      },
+                                      {
+                                          "team":  "Celeste",
+                                          "place":  3,
+                                          "finishTime":  "05/02/2026 11:06",
+                                          "hours":  73.100000000093132,
+                                          "points":  2
+                                      }
+                                  ],
+                        "participants":  [
+                                             {
+                                                 "position":  1,
+                                                 "name":  "Nico",
+                                                 "team":  "Naranja",
+                                                 "quantity":  75,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  11
+                                             },
+                                             {
+                                                 "position":  2,
+                                                 "name":  "Estela",
+                                                 "team":  "Celeste",
+                                                 "quantity":  75,
+                                                 "speedBonus":  1,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  4,
+                                                 "speedPoints":  2,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  3,
+                                                 "name":  "Facu",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  74,
+                                                 "speedBonus":  3,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  3,
+                                                 "speedPoints":  4,
+                                                 "totalPoints":  11
+                                             },
+                                             {
+                                                 "position":  4,
+                                                 "name":  "Lu",
+                                                 "team":  "Celeste",
+                                                 "quantity":  59,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  2,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  5,
+                                                 "name":  "Vicky",
+                                                 "team":  "Naranja",
+                                                 "quantity":  57,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  7
+                                             },
+                                             {
+                                                 "position":  6,
+                                                 "name":  "Chiqui",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  51,
+                                                 "speedBonus":  2,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  1,
+                                                 "speedPoints":  3,
+                                                 "totalPoints":  8
+                                             },
+                                             {
+                                                 "position":  7,
+                                                 "name":  "Samy",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  22,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  8,
+                                                 "name":  "Maru M",
+                                                 "team":  "Naranja",
+                                                 "quantity":  16,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             },
+                                             {
+                                                 "position":  9,
+                                                 "name":  "Abi",
+                                                 "team":  "Celeste",
+                                                 "quantity":  16,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  2,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  2
+                                             },
+                                             {
+                                                 "position":  10,
+                                                 "name":  "Gio",
+                                                 "team":  "Amarillo",
+                                                 "quantity":  3,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  4,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  4
+                                             },
+                                             {
+                                                 "position":  11,
+                                                 "name":  "Maru C",
+                                                 "team":  "Naranja",
+                                                 "quantity":  2,
+                                                 "speedBonus":  0,
+                                                 "teamPoints":  3,
+                                                 "quantityPoints":  0,
+                                                 "speedPoints":  0,
+                                                 "totalPoints":  3
+                                             }
+                                         ]
+                    }
+                ]
+};
