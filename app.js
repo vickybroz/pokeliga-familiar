@@ -68,6 +68,21 @@ function buildMetaCards(metaRows) {
     .join("");
 }
 
+function buildTop3Podium(participants) {
+  const ranked = denseRankByScore(participants, "totalPoints");
+  const byRank = { 1: [], 2: [], 3: [] };
+  ranked.forEach(({ item, rank }) => {
+    if (rank >= 1 && rank <= 3) {
+      byRank[rank].push(item.name);
+    }
+  });
+  const line = (rank, cls) => {
+    const names = byRank[rank].length ? byRank[rank].join(", ") : "-";
+    return `<div class="podium-line ${cls}" title="${names}"><span class="podium-rank">${rank}</span> ${names}</div>`;
+  };
+  return `<h4 class="live-top3-title">Ganadores</h4>${line(1, "first")}${line(2, "second")}${line(3, "third")}`;
+}
+
 async function decoratePanelsWithPokemon() {
   const panels = Array.from(document.querySelectorAll(".layout .panel"));
   if (!panels.length) return;
@@ -831,12 +846,14 @@ async function load() {
     const liveTeamsTitle = document.getElementById("liveTeamsTitle");
     const liveParticipantsTitle = document.getElementById("liveParticipantsTitle");
     const liveMetaEl = document.getElementById("liveMeta");
+    const liveTop3El = document.getElementById("liveTop3");
     const liveTeamsEl = document.getElementById("liveTeams");
     const liveParticipantsEl = document.getElementById("liveParticipants");
 
     if (!hasLiveData) {
       liveMetaEl.classList.remove("meta-grid");
       liveMetaEl.innerHTML = `<p class="muted">todavia sin datos</p>`;
+      liveTop3El.innerHTML = "";
       liveTeamsTitle.classList.add("is-hidden");
       liveParticipantsTitle.classList.add("is-hidden");
       liveTeamsEl.innerHTML = "";
@@ -859,6 +876,7 @@ async function load() {
       ["Media", Number(live.meta.mediaQuantity).toFixed(2), "Cantidad promedio objetivo por participante."]
     ];
     liveMetaEl.innerHTML = buildMetaCards(liveMeta);
+    liveTop3El.innerHTML = buildTop3Podium(live.participants);
     liveTeamsEl.innerHTML = makeTable(
       ["Equipo", "Puesto", "Hora final", "Horas", "Puntos"],
       live.teams.map(t => [teamPill(t.team), t.place <= 3 ? topBadge(t.place - 1) : String(t.place), t.finishTime, t.hours, t.points])
@@ -1166,7 +1184,15 @@ async function load() {
   decoratePanelsWithPokemon();
 }
 
-load().catch(err => {
+function hidePageLoader() {
+  const loader = document.getElementById("pageLoader");
+  if (loader) loader.classList.add("is-hidden");
+}
+
+load().then(() => {
+  hidePageLoader();
+}).catch(err => {
+  hidePageLoader();
   document.body.innerHTML = `<main class="layout"><section class="panel"><h2>Error</h2><p>No se pudo cargar data.json</p><pre>${err.message}</pre></section></main>`;
 });
 

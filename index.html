@@ -11,6 +11,17 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="pageLoader" class="page-loader" aria-live="polite">
+    <div class="loader-card">
+      <img
+        class="loader-sprite"
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+        alt="Cargando"
+      />
+      <p>Cargando Pokeliga...</p>
+    </div>
+  </div>
+
   <header class="hero">
     <p class="eyebrow">PokeLiga</p>
     <h1 class="hero-title">
@@ -38,7 +49,10 @@
 
     <section class="panel">
       <h2>Competencia en Curso</h2>
-      <div id="liveMeta" class="meta-grid"></div>
+      <div class="live-head">
+        <div id="liveMeta" class="meta-grid"></div>
+        <div id="liveTop3" class="live-top3"></div>
+      </div>
       <h3 id="liveTeamsTitle">Equipos</h3>
       <div id="liveTeams" class="table-wrap"></div>
       <h3 id="liveParticipantsTitle">Calculos por Participante</h3>
