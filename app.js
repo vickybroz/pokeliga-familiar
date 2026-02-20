@@ -195,12 +195,48 @@ const LOADER_JOKES = [
   "Explicandole los 18 tipos de Pokemon a Edu"
 ];
 let loaderJokeTimer = null;
+let lastLoaderJokeIndex = -1;
+const PLAYER_POKEMON_SPRITES = {
+  Vicky: { name: "Victini", id: 494 },
+  Nico: { name: "Nickit", id: 827 },
+  Chiqui: { name: "Chikorita", id: 152 },
+  "Maru M": { name: "Togedemaru", id: 777 },
+  Facu: { name: "Farfetchd", id: 83 },
+  Lu: { name: "Lugia", id: 249 },
+  Samy: { name: "Zamazenta", id: 889 },
+  Gio: { name: "Geodude", id: 74 },
+  Estela: { name: "Steelix", id: 208 },
+  "Maru C": { name: "Marowak", id: 105 },
+  Abi: { name: "Ambipom", id: 424 },
+  Edu: { name: "Dudunsparce", id: 982 }
+};
+
+function playerNameWithSprite(playerName) {
+  const entry = PLAYER_POKEMON_SPRITES[playerName];
+  if (!entry) return escapeHtml(playerName);
+  const src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${entry.id}.png`;
+  return `<span class="player-with-sprite"><img class="player-sprite" src="${src}" alt="${entry.name}" loading="lazy" />${escapeHtml(playerName)}</span>`;
+}
 
 function setRandomLoaderJoke() {
   const el = document.getElementById("loaderText");
   if (!el || !LOADER_JOKES.length) return;
-  const idx = Math.floor(Math.random() * LOADER_JOKES.length);
-  el.textContent = LOADER_JOKES[idx];
+  let previous = lastLoaderJokeIndex;
+  if (previous < 0) {
+    const saved = Number(window.sessionStorage.getItem("pokeliga_loader_joke_idx"));
+    if (Number.isInteger(saved) && saved >= 0 && saved < LOADER_JOKES.length) {
+      previous = saved;
+    }
+  }
+  let idx = Math.floor(Math.random() * LOADER_JOKES.length);
+  if (LOADER_JOKES.length > 1) {
+    while (idx === previous) {
+      idx = Math.floor(Math.random() * LOADER_JOKES.length);
+    }
+  }
+  lastLoaderJokeIndex = idx;
+  window.sessionStorage.setItem("pokeliga_loader_joke_idx", String(idx));
+  el.textContent = `${LOADER_JOKES[idx]}...`;
 }
 
 function startLoaderJokesRotation() {
@@ -1070,7 +1106,7 @@ async function load() {
 
   const rankingRows = denseRankByScore(playersByTotal, "total").map(({ item: p, rank }) => [
     rank <= 3 ? topBadge(rank - 1) : String(rank),
-    p.player,
+    playerNameWithSprite(p.player),
     p.total
   ]);
   document.getElementById("annualRanking").innerHTML = `<div class="table-wrap">${makeTable(["Puesto", "Jugador", "Total"], rankingRows)}</div>`;
@@ -1080,7 +1116,7 @@ async function load() {
     .slice()
     .sort((a, b) => a.player.localeCompare(b.player, "es", { sensitivity: "base" }))
     .map(p => [
-      p.player,
+      playerNameWithSprite(p.player),
       ...weekLabels.map(w => p.weeks[w]),
       p.total
     ]);
