@@ -68,6 +68,51 @@ function buildMetaCards(metaRows) {
     .join("");
 }
 
+async function decoratePanelsWithPokemon() {
+  const panels = Array.from(document.querySelectorAll(".layout .panel"));
+  if (!panels.length) return;
+  const usedIds = new Set();
+  const maxPokemonId = 1025;
+
+  const randomUniqueId = () => {
+    let id = 1 + Math.floor(Math.random() * maxPokemonId);
+    while (usedIds.has(id) && usedIds.size < maxPokemonId) {
+      id = 1 + Math.floor(Math.random() * maxPokemonId);
+    }
+    usedIds.add(id);
+    return id;
+  };
+
+  const requests = panels.map(async () => {
+    const id = randomUniqueId();
+    try {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const sprite =
+        data?.sprites?.other?.["official-artwork"]?.front_default ||
+        data?.sprites?.front_default ||
+        "";
+      if (!sprite) return null;
+      return { id, sprite, name: data?.name || `pokemon-${id}` };
+    } catch (_) {
+      return null;
+    }
+  });
+
+  const pokemons = await Promise.all(requests);
+  panels.forEach((panel, idx) => {
+    const poke = pokemons[idx];
+    if (!poke) return;
+    const img = document.createElement("img");
+    img.className = "panel-pokemon";
+    img.src = poke.sprite;
+    img.alt = poke.name;
+    img.loading = "lazy";
+    panel.appendChild(img);
+  });
+}
+
 function resolveChallengeText(rawChallenge) {
   const text = String(rawChallenge || "").trim();
   return text || "Pendiente (definir desde Cargar puntos del equipo)";
@@ -975,6 +1020,8 @@ async function load() {
     .join("");
 
   document.getElementById("historyList").innerHTML = historyHtml;
+
+  decoratePanelsWithPokemon();
 }
 
 load().catch(err => {
