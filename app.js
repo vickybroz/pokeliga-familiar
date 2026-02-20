@@ -180,6 +180,41 @@ const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
 const CAN_USE_LOCAL_WEEK_API = !IS_GITHUB_PAGES;
 const PUBLIC_WEEK_DATA_FILE = "week-data.json";
 const REMOTE_WEEK_API = WEEK_AUTH_API; // mismo Apps Script, acciones distintas
+const LOADER_JOKES = [
+  "Esperando que Maru M deje un pokemon suelto en tribunales",
+  "Deteniendo a Facu de completar el desafio solo en 5 minutos",
+  "Aguardando que Vicky Tapia termine de manipular los datos",
+  "Aguantando que Chiqui capture otro perfecto",
+  "Esperando que Lu maquille a Mr. Mime",
+  "Escuchando una playlist de Nico con Jigglypuff",
+  "Aguardando a que Estelita vuelva de la iglesia",
+  "Desobnubilandome ante la perfeccion de Samy",
+  "Esperando que Gio termine de maxear sus pokemones",
+  "Esperando que Maru C distraiga a Facu, Lichi y Lauti.",
+  "Liberando espacio en el disco de Abi para que entre Pokemon Go",
+  "Explicandole los 18 tipos de Pokemon a Edu"
+];
+let loaderJokeTimer = null;
+
+function setRandomLoaderJoke() {
+  const el = document.getElementById("loaderText");
+  if (!el || !LOADER_JOKES.length) return;
+  const idx = Math.floor(Math.random() * LOADER_JOKES.length);
+  el.textContent = LOADER_JOKES[idx];
+}
+
+function startLoaderJokesRotation() {
+  setRandomLoaderJoke();
+  if (loaderJokeTimer) window.clearInterval(loaderJokeTimer);
+  loaderJokeTimer = window.setInterval(setRandomLoaderJoke, 3000);
+}
+
+function stopLoaderJokesRotation() {
+  if (loaderJokeTimer) {
+    window.clearInterval(loaderJokeTimer);
+    loaderJokeTimer = null;
+  }
+}
 
 async function callRemoteWeekApi(action, extraParams = {}) {
   if (!REMOTE_WEEK_API) return null;
@@ -1187,6 +1222,7 @@ async function load() {
 function hidePageLoader() {
   const loader = document.getElementById("pageLoader");
   if (loader) loader.classList.add("is-hidden");
+  stopLoaderJokesRotation();
 }
 
 load().then(() => {
@@ -1195,6 +1231,8 @@ load().then(() => {
   hidePageLoader();
   document.body.innerHTML = `<main class="layout"><section class="panel"><h2>Error</h2><p>No se pudo cargar data.json</p><pre>${err.message}</pre></section></main>`;
 });
+
+startLoaderJokesRotation();
 
 
 
