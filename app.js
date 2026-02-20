@@ -317,6 +317,16 @@ function getWeekStorageKey(startDate) {
   return `pokeliga.week.${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}-${startDate.getHours()}`;
 }
 
+function getWeekLabelFromStartDate(startDate) {
+  const month = startDate.getMonth() + 1;
+  const firstDayOfMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+  const firstTuesdayOffset = (2 - firstDayOfMonth.getDay() + 7) % 7;
+  const firstTuesdayDay = 1 + firstTuesdayOffset;
+  const rawWeek = Math.floor((startDate.getDate() - firstTuesdayDay) / 7) + 1;
+  const week = Math.max(1, rawWeek);
+  return `${week}/${month}`;
+}
+
 function createDefaultWeekCapture(teams) {
   const byTeam = {};
   teams.forEach(t => {
@@ -658,14 +668,51 @@ function calculateLiveCompetition(currentWeekTeams, weekCapture, currentWeekStar
   };
 }
 
-function buildPreparedLatestCompetition() {
+function hasWeekCaptureData(capture) {
+  if (!capture) return false;
+  if (String(capture.challenge || "").trim()) return true;
+  if (Number(capture.targetTotal || 0) > 0) return true;
+  return Object.values(capture.byTeam || {}).some(teamData => {
+    if (teamData?.finishTime) return true;
+    return Object.values(teamData?.playerPoints || {}).some(v => Number(v || 0) > 0);
+  });
+}
+
+function buildCompetitionFromCapture(capture, weekStart, teams, weekLabel) {
+  const weekEnd = getDefaultEndDate(weekStart);
+  const computed = calculateLiveCompetition(teams, capture, weekStart, weekEnd);
   return {
-    week: "2/2",
-    sheet: "22",
+    week: weekLabel || "Anterior",
+    sheet: "",
+    challenge: computed.meta.challenge,
+    start: computed.meta.start,
+    end: computed.meta.end,
+    durationHours: computed.meta.durationHours,
+    officialRate: computed.meta.officialRate,
+    mediaQuantity: computed.meta.mediaQuantity,
+    teams: computed.teams,
+    participants: denseRankByScore(computed.participants, "totalPoints").map(({ item: p, rank }) => ({
+      position: rank,
+      name: p.name,
+      team: p.team,
+      quantity: p.quantity,
+      speedBonus: p.speedBonus,
+      teamPoints: p.teamPoints,
+      quantityPoints: p.quantityPoints,
+      speedPoints: p.speedPoints,
+      totalPoints: p.totalPoints
+    }))
+  };
+}
+
+function buildEmptyCompetition(weekLabel, weekStart, weekEnd) {
+  return {
+    week: weekLabel,
+    sheet: "",
     challenge: null,
-    start: null,
-    end: null,
-    durationHours: null,
+    start: formatDateTimeLabel(weekStart),
+    end: formatDateTimeLabel(weekEnd),
+    durationHours: (weekEnd.getTime() - weekStart.getTime()) / 36e5,
     officialRate: null,
     mediaQuantity: null,
     teams: [],
@@ -681,12 +728,12 @@ function addPlayerIfMissing(players, weekLabels, playerName) {
 
 async function load() {
   const data = window.POKELIGA_DATA || await (await fetch("data.json")).json();
-  const weekLabels = data.annual.weekLabels.slice();
+  let weekLabels = data.annual.weekLabels.slice();
   if (!weekLabels.includes("2/2")) {
     weekLabels.push("2/2");
   }
   const annualPlayers = addPlayerIfMissing(data.annual.players.slice(), weekLabels, "Edu");
-  const annualPlayersWithWeeks = annualPlayers.map(p => ({
+  let annualPlayersWithWeeks = annualPlayers.map(p => ({
     ...p,
     weeks: Object.fromEntries(weekLabels.map(w => [w, Number(p.weeks?.[w] ?? 0)])),
     total: Number(p.total ?? 0)
@@ -699,6 +746,53 @@ async function load() {
   const currentWeekTeams = getMockTeamsForCurrentWeek();
   const weekStorageKey = getWeekStorageKey(currentWeekStart);
   const weekCapture = await loadWeekCapture(weekStorageKey, currentWeekTeams);
+  const currentWeekLabel = getWeekLabelFromStartDate(currentWeekStart);
+  if (!String(weekCapture.weekLabel || "").trim()) {
+    weekCapture.weekLabel = currentWeekLabel;
+  }
+
+  const prevWeekStart = new Date(currentWeekStart);
+  prevWeekStart.setDate(prevWeekStart.getDate() - 7);
+  const prevWeekEnd = getDefaultEndDate(prevWeekStart);
+  const prevWeekLabel = getWeekLabelFromStartDate(prevWeekStart);
+  const prevWeekCapture = await loadWeekCapture(getWeekStorageKey(prevWeekStart), currentWeekTeams);
+  const latestFromCapture = hasWeekCaptureData(prevWeekCapture)
+    ? buildCompetitionFromCapture(prevWeekCapture, prevWeekStart, currentWeekTeams, prevWeekCapture.weekLabel || prevWeekLabel)
+    : null;
+
+  const prev2WeekStart = new Date(currentWeekStart);
+  prev2WeekStart.setDate(prev2WeekStart.getDate() - 14);
+  const prev2WeekCapture = await loadWeekCapture(getWeekStorageKey(prev2WeekStart), currentWeekTeams);
+  const historyFromCapture = hasWeekCaptureData(prev2WeekCapture)
+    ? [buildCompetitionFromCapture(prev2WeekCapture, prev2WeekStart, currentWeekTeams, prev2WeekCapture.weekLabel || "Hace 2 semanas")]
+    : [];
+
+  if (latestFromCapture) {
+    const label = latestFromCapture.week;
+    if (!weekLabels.includes(label)) {
+      weekLabels = [...weekLabels, label];
+      annualPlayersWithWeeks = annualPlayersWithWeeks.map(p => ({
+        ...p,
+        weeks: { ...p.weeks, [label]: 0 }
+      }));
+    }
+    latestFromCapture.participants.forEach(participant => {
+      const idx = annualPlayersWithWeeks.findIndex(p => p.player === participant.name);
+      if (idx === -1) {
+        const weeks = Object.fromEntries(weekLabels.map(w => [w, 0]));
+        weeks[label] = participant.totalPoints;
+        annualPlayersWithWeeks.push({
+          player: participant.name,
+          weeks,
+          total: participant.totalPoints
+        });
+      } else {
+        const prevValue = Number(annualPlayersWithWeeks[idx].weeks[label] || 0);
+        annualPlayersWithWeeks[idx].weeks[label] = participant.totalPoints;
+        annualPlayersWithWeeks[idx].total += (participant.totalPoints - prevValue);
+      }
+    });
+  }
   document.getElementById("generatedAt").textContent = `Actualizado: ${resolveLastUpdatedLabel(data.generatedAt, weekCapture.updatedAt)}`;
 
   const renderCurrentWeekMeta = () => {
@@ -898,6 +992,9 @@ async function load() {
     if (!lockedChallenge) {
       weekCapture.challenge = enteredChallenge;
     }
+    if (!String(weekCapture.weekLabel || "").trim()) {
+      weekCapture.weekLabel = weekLabels[weekLabels.length - 1] || "Actual";
+    }
     weekCapture.targetTotal = enteredTarget;
     weekCapture.updatedAt = new Date().toISOString();
     weekCapture.byTeam[authorizedTeam].finishTime = finishInput.value ? new Date(finishInput.value).toISOString() : "";
@@ -948,8 +1045,7 @@ async function load() {
     weeklyToggle.setAttribute("aria-expanded", String(willExpand));
   });
 
-  const preparedLatest = buildPreparedLatestCompetition();
-  const latest = preparedLatest || data.latestCompetition;
+  const latest = latestFromCapture || buildEmptyCompetition(prevWeekLabel, prevWeekStart, prevWeekEnd);
   const hasLatestData = Boolean(latest?.participants?.length || latest?.teams?.length);
   const latestTeamsSorted = latest.teams
     .slice()
@@ -999,13 +1095,15 @@ async function load() {
   }
 
   const historySource = data.history.slice();
-  if (preparedLatest && data.latestCompetition) {
+  if (latestFromCapture && data.latestCompetition) {
     const prevLatest = data.latestCompetition;
     const alreadyInHistory = historySource.some(w => w.week === prevLatest.week && w.challenge === prevLatest.challenge);
-    if (!alreadyInHistory) {
-      historySource.unshift(prevLatest);
-    }
+    if (!alreadyInHistory) historySource.unshift(prevLatest);
   }
+  historyFromCapture.forEach(dynamicWeek => {
+    const alreadyInHistory = historySource.some(w => w.week === dynamicWeek.week && w.start === dynamicWeek.start);
+    if (!alreadyInHistory) historySource.unshift(dynamicWeek);
+  });
 
   const historyHtml = historySource
     .reverse()
