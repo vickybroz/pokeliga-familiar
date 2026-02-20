@@ -118,6 +118,47 @@ function resolveChallengeText(rawChallenge) {
   return text || "Pendiente (definir desde Cargar puntos del equipo)";
 }
 
+function parseMaybeDate(value) {
+  if (!value) return null;
+  const text = String(value).trim();
+  if (!text) return null;
+  if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(text)) {
+    const d = new Date(text.replace(" ", "T"));
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  const d = new Date(text);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function formatTimestamp(dateValue) {
+  const parts = new Intl.DateTimeFormat("es-AR", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23"
+  }).formatToParts(dateValue);
+  const get = type => parts.find(p => p.type === type)?.value || "00";
+  const yyyy = get("year");
+  const mm = get("month");
+  const dd = get("day");
+  const hh = get("hour");
+  const min = get("minute");
+  const ss = get("second");
+  return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+}
+
+function resolveLastUpdatedLabel(baseGeneratedAt, weekUpdatedAt) {
+  const week = parseMaybeDate(weekUpdatedAt);
+  if (week) return formatTimestamp(week);
+  const base = parseMaybeDate(baseGeneratedAt);
+  if (base) return formatTimestamp(base);
+  return String(baseGeneratedAt || "-");
+}
+
 const WEEK_DATA_API = "/api/week-data";
 const WEEK_AUTH_API = "https://script.google.com/macros/s/AKfycbzwxbU936UpfylvgFtMNJWCWbUOhFbGn4RpYSkl9kLdICW0CGNm7u8VsJQ59LTlqe17/exec"; // Google Apps Script URL
 const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
@@ -287,6 +328,7 @@ function createDefaultWeekCapture(teams) {
   return {
     challenge: "",
     targetTotal: "",
+    updatedAt: "",
     byTeam
   };
 }
@@ -309,6 +351,7 @@ function normalizeWeekCapture(parsed, teams) {
   });
   parsed.challenge = parsed.challenge || "";
   parsed.targetTotal = parsed.targetTotal ?? "";
+  parsed.updatedAt = parsed.updatedAt || "";
   return parsed;
 }
 
@@ -649,8 +692,6 @@ async function load() {
     total: Number(p.total ?? 0)
   }));
 
-  document.getElementById("generatedAt").textContent = `Actualizado: ${data.generatedAt}`;
-
   const currentWeekStart = getCurrentWeekStartDate();
   const currentWeekEnd = getDefaultEndDate(currentWeekStart);
   const nextDrawDate = getNextDrawDate(currentWeekStart);
@@ -658,6 +699,7 @@ async function load() {
   const currentWeekTeams = getMockTeamsForCurrentWeek();
   const weekStorageKey = getWeekStorageKey(currentWeekStart);
   const weekCapture = await loadWeekCapture(weekStorageKey, currentWeekTeams);
+  document.getElementById("generatedAt").textContent = `Actualizado: ${resolveLastUpdatedLabel(data.generatedAt, weekCapture.updatedAt)}`;
 
   const renderCurrentWeekMeta = () => {
     const currentWeekMeta = [
@@ -857,6 +899,7 @@ async function load() {
       weekCapture.challenge = enteredChallenge;
     }
     weekCapture.targetTotal = enteredTarget;
+    weekCapture.updatedAt = new Date().toISOString();
     weekCapture.byTeam[authorizedTeam].finishTime = finishInput.value ? new Date(finishInput.value).toISOString() : "";
     playersInputs.querySelectorAll("input[data-player]").forEach(input => {
       const player = input.getAttribute("data-player");
@@ -864,6 +907,7 @@ async function load() {
       weekCapture.byTeam[authorizedTeam].playerPoints[player] = Number.isFinite(value) ? value : 0;
     });
     await saveWeekCapture(weekStorageKey, weekCapture);
+    document.getElementById("generatedAt").textContent = `Actualizado: ${resolveLastUpdatedLabel(data.generatedAt, weekCapture.updatedAt)}`;
     renderCurrentWeekMeta();
     renderCurrentWeekTeams();
     renderLiveCompetition();
@@ -879,7 +923,7 @@ async function load() {
     p.player,
     p.total
   ]);
-  document.getElementById("annualRanking").innerHTML = makeTable(["Puesto", "Jugador", "Total"], rankingRows);
+  document.getElementById("annualRanking").innerHTML = `<div class="table-wrap">${makeTable(["Puesto", "Jugador", "Total"], rankingRows)}</div>`;
 
   const annualColumns = ["Jugador", ...weekLabels, "Total"];
   const annualRows = annualPlayersWithWeeks
@@ -1010,9 +1054,9 @@ async function load() {
           <div class="history-content">
             <div class="meta-grid">${buildMetaCards(weekMeta)}</div>
             <h3>Equipos</h3>
-            ${teamsTable}
+            <div class="table-wrap">${teamsTable}</div>
             <h3>Calculos por Participante</h3>
-            ${makeTable(["Pos", "Nombre", "Equipo", "Cantidad", "Plus Vel", "Pts Equipo", "Pts Cantidad", "Pts Velocidad", "Total"], participantRows)}
+            <div class="table-wrap">${makeTable(["Pos", "Nombre", "Equipo", "Cantidad", "Plus Vel", "Pts Equipo", "Pts Cantidad", "Pts Velocidad", "Total"], participantRows)}</div>
           </div>
         </details>
       `;
