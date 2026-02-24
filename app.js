@@ -301,7 +301,7 @@ function getCurrentWeekStartDate() {
 function getDefaultEndDate(startDate) {
   const end = new Date(startDate);
   end.setDate(end.getDate() + 6);
-  end.setHours(22, 0, 0, 0);
+  end.setHours(21, 0, 0, 0);
   return end;
 }
 
@@ -356,14 +356,6 @@ function buildWeeklyTeams(players, startDate) {
   });
   teams.forEach(t => t.players.sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" })));
   return teams;
-}
-
-function getMockTeamsForCurrentWeek() {
-  return [
-    { team: "Naranja", players: ["Gio", "Samy", "Estela", "Facu"] },
-    { team: "Amarillo", players: ["Lu", "Maru M", "Chiqui", "Vicky"] },
-    { team: "Celeste", players: ["Nico", "Abi", "Maru C", "Edu"] }
-  ];
 }
 
 function formatCountdown(deltaMs) {
@@ -828,8 +820,11 @@ async function load() {
   const currentWeekStart = getCurrentWeekStartDate();
   const currentWeekEnd = getDefaultEndDate(currentWeekStart);
   const nextDrawDate = getNextDrawDate(currentWeekStart);
-  const competitionActive = isCompetitionActive(new Date(), currentWeekStart, currentWeekEnd);
-  const currentWeekTeams = getMockTeamsForCurrentWeek();
+  const now = new Date();
+  const competitionActive = isCompetitionActive(now, currentWeekStart, currentWeekEnd);
+  const waitingForNextCompetition = !competitionActive && now < nextDrawDate;
+  const allPlayers = annualPlayersWithWeeks.map(p => p.player);
+  const currentWeekTeams = buildWeeklyTeams(allPlayers, currentWeekStart);
   const weekStorageKey = getWeekStorageKey(currentWeekStart);
   const weekCapture = await loadWeekCapture(weekStorageKey, currentWeekTeams);
   const currentWeekLabel = getWeekLabelFromStartDate(currentWeekStart);
@@ -837,20 +832,24 @@ async function load() {
     weekCapture.weekLabel = currentWeekLabel;
   }
 
-  const prevWeekStart = new Date(currentWeekStart);
-  prevWeekStart.setDate(prevWeekStart.getDate() - 7);
-  const prevWeekEnd = getDefaultEndDate(prevWeekStart);
-  const prevWeekLabel = getWeekLabelFromStartDate(prevWeekStart);
-  const prevWeekCapture = await loadWeekCapture(getWeekStorageKey(prevWeekStart), currentWeekTeams);
-  const latestFromCapture = hasWeekCaptureData(prevWeekCapture)
-    ? buildCompetitionFromCapture(prevWeekCapture, prevWeekStart, currentWeekTeams, prevWeekCapture.weekLabel || prevWeekLabel)
+  const latestWeekStart = new Date(currentWeekStart);
+  if (competitionActive) {
+    latestWeekStart.setDate(latestWeekStart.getDate() - 7);
+  }
+  const latestWeekEnd = getDefaultEndDate(latestWeekStart);
+  const latestWeekLabel = getWeekLabelFromStartDate(latestWeekStart);
+  const latestWeekTeams = buildWeeklyTeams(allPlayers, latestWeekStart);
+  const latestWeekCapture = await loadWeekCapture(getWeekStorageKey(latestWeekStart), latestWeekTeams);
+  const latestFromCapture = hasWeekCaptureData(latestWeekCapture)
+    ? buildCompetitionFromCapture(latestWeekCapture, latestWeekStart, latestWeekTeams, latestWeekCapture.weekLabel || latestWeekLabel)
     : null;
 
-  const prev2WeekStart = new Date(currentWeekStart);
-  prev2WeekStart.setDate(prev2WeekStart.getDate() - 14);
-  const prev2WeekCapture = await loadWeekCapture(getWeekStorageKey(prev2WeekStart), currentWeekTeams);
+  const prev2WeekStart = new Date(latestWeekStart);
+  prev2WeekStart.setDate(prev2WeekStart.getDate() - 7);
+  const prev2WeekTeams = buildWeeklyTeams(allPlayers, prev2WeekStart);
+  const prev2WeekCapture = await loadWeekCapture(getWeekStorageKey(prev2WeekStart), prev2WeekTeams);
   const historyFromCapture = hasWeekCaptureData(prev2WeekCapture)
-    ? [buildCompetitionFromCapture(prev2WeekCapture, prev2WeekStart, currentWeekTeams, prev2WeekCapture.weekLabel || "Hace 2 semanas")]
+    ? [buildCompetitionFromCapture(prev2WeekCapture, prev2WeekStart, prev2WeekTeams, prev2WeekCapture.weekLabel || "Hace 2 semanas")]
     : [];
 
   if (latestFromCapture) {
@@ -882,17 +881,42 @@ async function load() {
   document.getElementById("generatedAt").textContent = `Actualizado: ${resolveLastUpdatedLabel(data.generatedAt, weekCapture.updatedAt)}`;
 
   const renderCurrentWeekMeta = () => {
+    const currentWeekMetaEl = document.getElementById("currentWeekMeta");
+    const currentWeekTeamsEl = document.getElementById("currentWeekTeams");
+    const countdownEl = document.getElementById("nextDrawCountdown");
+    const weekAdminRow = document.querySelector(".week-admin-row");
+
+    if (waitingForNextCompetition) {
+      currentWeekMetaEl.classList.remove("meta-grid");
+      currentWeekMetaEl.innerHTML = `<p class="muted">A la espera del comienzo de la competencia.</p>`;
+      currentWeekTeamsEl.innerHTML = "";
+      currentWeekTeamsEl.classList.add("is-hidden");
+      if (weekAdminRow) weekAdminRow.classList.add("is-hidden");
+      if (countdownEl) countdownEl.classList.remove("is-hidden");
+      startNextDrawCountdown(nextDrawDate);
+      return;
+    }
+
+    currentWeekMetaEl.classList.add("meta-grid");
+    currentWeekTeamsEl.classList.remove("is-hidden");
+    if (weekAdminRow) weekAdminRow.classList.remove("is-hidden");
+    if (countdownEl) {
+      countdownEl.classList.add("is-hidden");
+      countdownEl.textContent = "";
+    }
+
     const currentWeekMeta = [
       ["Semana", "Actual", "Configuracion mock de la semana en curso."],
       ["Estado", competitionActive ? "Vigente" : "Fuera de ventana", "Solo se puede cargar/editar mientras la competencia esta vigente."],
       ["Desafio", resolveChallengeText(weekCapture.challenge), "Lo define el primer equipo que guarda."],
       ["Inicio", formatDateTimeLabel(currentWeekStart), "La competencia arranca todos los martes a las 10:00."],
-      ["Fin", formatDateTimeLabel(currentWeekEnd), "Finaliza todos los lunes a las 22:00."]
+      ["Fin", formatDateTimeLabel(currentWeekEnd), "Finaliza todos los lunes a las 21:00."]
     ];
-    document.getElementById("currentWeekMeta").innerHTML = buildMetaCards(currentWeekMeta);
+    currentWeekMetaEl.innerHTML = buildMetaCards(currentWeekMeta);
   };
 
   const renderCurrentWeekTeams = () => {
+    if (waitingForNextCompetition) return;
     document.getElementById("currentWeekTeams").innerHTML = currentWeekTeams
       .map(group => {
         return `
@@ -912,7 +936,7 @@ async function load() {
     const hasAnyFinish = Object.values(weekCapture.byTeam || {}).some(teamData => Boolean(teamData?.finishTime));
     const hasChallenge = Boolean(String(weekCapture.challenge || "").trim());
     const hasTarget = Number(weekCapture.targetTotal || 0) > 0;
-    const hasLiveData = hasChallenge || hasTarget || hasAnyFinish || hasAnyPoints;
+    const hasLiveData = competitionActive && (hasChallenge || hasTarget || hasAnyFinish || hasAnyPoints);
 
     const liveTeamsTitle = document.getElementById("liveTeamsTitle");
     const liveParticipantsTitle = document.getElementById("liveParticipantsTitle");
@@ -971,7 +995,6 @@ async function load() {
   renderCurrentWeekMeta();
   renderCurrentWeekTeams();
   renderLiveCompetition();
-  startNextDrawCountdown(nextDrawDate);
 
   const weekModal = document.getElementById("weekModal");
   const openWeekAdmin = document.getElementById("openWeekAdmin");
@@ -992,7 +1015,7 @@ async function load() {
   if (!competitionActive) {
     openWeekAdmin.disabled = true;
     openWeekAdmin.textContent = "Carga cerrada (fuera de la semana vigente)";
-    openWeekAdmin.title = "La carga se habilita desde el martes 10:00 hasta el lunes 22:00.";
+    openWeekAdmin.title = "La carga se habilita desde el martes 10:00 hasta el lunes 21:00.";
   }
 
   const closeModal = () => {
@@ -1134,7 +1157,7 @@ async function load() {
     weeklyToggle.setAttribute("aria-expanded", String(willExpand));
   });
 
-  const latest = latestFromCapture || buildEmptyCompetition(prevWeekLabel, prevWeekStart, prevWeekEnd);
+  const latest = latestFromCapture || buildEmptyCompetition(latestWeekLabel, latestWeekStart, latestWeekEnd);
   const hasLatestData = Boolean(latest?.participants?.length || latest?.teams?.length);
   const latestTeamsSorted = latest.teams
     .slice()
