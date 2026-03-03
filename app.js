@@ -62,6 +62,34 @@ function explainWeekLabel(weekLabel) {
   return "Es la competencia correspondiente a esta semana.";
 }
 
+function parseDisplayDate(dateText) {
+  const match = String(dateText || "").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if (!match) return null;
+  const [, dd, mm, yyyy, hh = "0", min = "0"] = match;
+  return new Date(Number(yyyy), Number(mm) - 1, Number(dd), Number(hh), Number(min), 0, 0);
+}
+
+function formatWeekWithYear(weekLabel, startText) {
+  const parsed = parseDisplayDate(startText);
+  if (!parsed) return weekLabel;
+  return `${weekLabel}/${parsed.getFullYear()}`;
+}
+
+function compareWeekLabels(a, b) {
+  const [aWeek = "0", aMonth = "0"] = String(a || "").split("/");
+  const [bWeek = "0", bMonth = "0"] = String(b || "").split("/");
+  const aMonthNum = Number(aMonth) || 0;
+  const bMonthNum = Number(bMonth) || 0;
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+  const aYear = aMonthNum > currentMonth ? currentYear - 1 : currentYear;
+  const bYear = bMonthNum > currentMonth ? currentYear - 1 : currentYear;
+  if (aYear !== bYear) return aYear - bYear;
+  if (aMonthNum !== bMonthNum) return aMonthNum - bMonthNum;
+  return (Number(aWeek) || 0) - (Number(bWeek) || 0);
+}
+
 function buildMetaCards(metaRows) {
   return metaRows
     .map(([k, v, help]) => `<article class="meta-item" title="${help}"><b>${k}</b><span>${v}</span></article>`)
@@ -286,11 +314,10 @@ function formatDateTimeLabel(dateValue) {
   return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
 }
 
-function getCurrentWeekStartDate() {
-  const now = new Date();
+function getCurrentWeekStartDate(now = new Date()) {
   const start = new Date(now);
-  const daysSinceTuesday = (now.getDay() - 2 + 7) % 7;
-  start.setDate(now.getDate() - daysSinceTuesday);
+  const daysSinceMonday = (now.getDay() - 1 + 7) % 7;
+  start.setDate(now.getDate() - daysSinceMonday);
   start.setHours(10, 0, 0, 0);
   if (now < start) {
     start.setDate(start.getDate() - 7);
@@ -300,13 +327,13 @@ function getCurrentWeekStartDate() {
 
 function getDefaultEndDate(startDate) {
   const end = new Date(startDate);
-  end.setDate(end.getDate() + 6);
-  end.setHours(21, 0, 0, 0);
+  end.setDate(end.getDate() + 7);
+  end.setHours(10, 0, 0, 0);
   return end;
 }
 
 function isCompetitionActive(now, startDate, endDate) {
-  return now >= startDate && now <= endDate;
+  return now >= startDate && now < endDate;
 }
 
 function getNextDrawDate(startDate) {
@@ -346,9 +373,26 @@ function seededShuffle(items, seedText) {
   return arr;
 }
 
+const WEEKLY_TEAM_OVERRIDES = {
+  "2026-3-2-10": {
+    Naranja: ["Abi", "Edu", "Facu", "Gio"],
+    Amarillo: ["Chiqui", "Maru C", "Maru M", "Vicky"],
+    Celeste: ["Estela", "Lu", "Nico", "Samy"]
+  }
+};
+
 function buildWeeklyTeams(players, startDate) {
   const teamNames = ["Naranja", "Amarillo", "Celeste"];
   const seedKey = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}-${startDate.getHours()}`;
+  const override = WEEKLY_TEAM_OVERRIDES[seedKey];
+  if (override) {
+    return teamNames.map(name => ({
+      team: name,
+      players: (override[name] || [])
+        .filter(player => players.includes(player))
+        .sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }))
+    }));
+  }
   const shuffled = seededShuffle(players, seedKey);
   const teams = teamNames.map(name => ({ team: name, players: [] }));
   shuffled.forEach((player, idx) => {
@@ -398,11 +442,64 @@ function getWeekStorageKey(startDate) {
 function getWeekLabelFromStartDate(startDate) {
   const month = startDate.getMonth() + 1;
   const firstDayOfMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-  const firstTuesdayOffset = (2 - firstDayOfMonth.getDay() + 7) % 7;
-  const firstTuesdayDay = 1 + firstTuesdayOffset;
-  const rawWeek = Math.floor((startDate.getDate() - firstTuesdayDay) / 7) + 1;
+  const firstMondayOffset = (1 - firstDayOfMonth.getDay() + 7) % 7;
+  const firstMondayDay = 1 + firstMondayOffset;
+  const rawWeek = Math.floor((startDate.getDate() - firstMondayDay) / 7) + 1;
   const week = Math.max(1, rawWeek);
   return `${week}/${month}`;
+}
+
+function cloneTeams(teams) {
+  return (teams || []).map(team => ({
+    team: team.team,
+    players: Array.isArray(team.players) ? team.players.slice() : []
+  }));
+}
+
+function hasStoredTeams(capture) {
+  return Array.isArray(capture?.teams) && capture.teams.length > 0;
+}
+
+function getLegacyTuesdayStartDate(startDate) {
+  const legacy = new Date(startDate);
+  legacy.setDate(legacy.getDate() + 1);
+  legacy.setHours(10, 0, 0, 0);
+  return legacy;
+}
+
+function getLegacyTuesdayEndDate(startDate) {
+  const legacyEnd = new Date(startDate);
+  legacyEnd.setDate(legacyEnd.getDate() + 6);
+  legacyEnd.setHours(21, 0, 0, 0);
+  return legacyEnd;
+}
+
+async function resolveCompetitionCapture(startDate, allPlayers, fallbackWeekLabel) {
+  const candidateStarts = [
+    {
+      startDate: new Date(startDate),
+      endDate: getDefaultEndDate(startDate),
+      weekLabel: fallbackWeekLabel
+    },
+    {
+      startDate: getLegacyTuesdayStartDate(startDate),
+      endDate: getLegacyTuesdayEndDate(getLegacyTuesdayStartDate(startDate)),
+      weekLabel: fallbackWeekLabel
+    }
+  ];
+  for (const candidate of candidateStarts) {
+    const teams = buildWeeklyTeams(allPlayers, candidate.startDate);
+    const capture = await loadWeekCapture(getWeekStorageKey(candidate.startDate), teams);
+    if (!hasWeekCaptureData(capture)) continue;
+    return {
+      capture,
+      teams: cloneTeams(capture.teams || teams),
+      startDate: candidate.startDate,
+      endDate: candidate.endDate,
+      weekLabel: capture.weekLabel || candidate.weekLabel
+    };
+  }
+  return null;
 }
 
 function createDefaultWeekCapture(teams) {
@@ -417,6 +514,7 @@ function createDefaultWeekCapture(teams) {
     challenge: "",
     targetTotal: "",
     updatedAt: "",
+    teams: cloneTeams(teams),
     byTeam
   };
 }
@@ -424,7 +522,9 @@ function createDefaultWeekCapture(teams) {
 function normalizeWeekCapture(parsed, teams) {
   const fallback = createDefaultWeekCapture(teams);
   if (!parsed || typeof parsed !== "object") return fallback;
-  teams.forEach(t => {
+  const effectiveTeams = hasStoredTeams(parsed) ? cloneTeams(parsed.teams) : cloneTeams(teams);
+  parsed.teams = effectiveTeams;
+  effectiveTeams.forEach(t => {
     if (!parsed.byTeam?.[t.team]) {
       parsed.byTeam = parsed.byTeam || {};
       parsed.byTeam[t.team] = { finishTime: "", playerPoints: {} };
@@ -440,6 +540,7 @@ function normalizeWeekCapture(parsed, teams) {
   parsed.challenge = parsed.challenge || "";
   parsed.targetTotal = parsed.targetTotal ?? "";
   parsed.updatedAt = parsed.updatedAt || "";
+  parsed._teamsStored = hasStoredTeams(parsed);
   return parsed;
 }
 
@@ -486,11 +587,19 @@ async function loadWeekCapture(storageKey, teams) {
 }
 
 async function saveWeekCapture(storageKey, payload) {
+  const serializablePayload = {
+    challenge: payload.challenge || "",
+    targetTotal: payload.targetTotal ?? "",
+    updatedAt: payload.updatedAt || "",
+    weekLabel: payload.weekLabel || "",
+    teams: cloneTeams(payload.teams || []),
+    byTeam: payload.byTeam || {}
+  };
   let apiSaved = false;
   if (REMOTE_WEEK_API) {
     const remote = await callRemoteWeekApi("saveWeekData", {
       weekKey: storageKey,
-      data: JSON.stringify(payload)
+      data: JSON.stringify(serializablePayload)
     });
     apiSaved = Boolean(remote?.ok);
   }
@@ -499,7 +608,7 @@ async function saveWeekCapture(storageKey, payload) {
       const res = await fetch(WEEK_DATA_API, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ weekKey: storageKey, data: payload })
+        body: JSON.stringify({ weekKey: storageKey, data: serializablePayload })
       });
       apiSaved = res.ok;
     } catch (_) {
@@ -507,10 +616,10 @@ async function saveWeekCapture(storageKey, payload) {
     }
   }
   if (!apiSaved) {
-    window.localStorage.setItem(storageKey, JSON.stringify(payload));
+    window.localStorage.setItem(storageKey, JSON.stringify(serializablePayload));
     return false;
   }
-  window.localStorage.setItem(storageKey, JSON.stringify(payload));
+  window.localStorage.setItem(storageKey, JSON.stringify(serializablePayload));
   return true;
 }
 
@@ -756,8 +865,7 @@ function hasWeekCaptureData(capture) {
   });
 }
 
-function buildCompetitionFromCapture(capture, weekStart, teams, weekLabel) {
-  const weekEnd = getDefaultEndDate(weekStart);
+function buildCompetitionFromCapture(capture, weekStart, teams, weekLabel, weekEnd = getDefaultEndDate(weekStart)) {
   const computed = calculateLiveCompetition(teams, capture, weekStart, weekEnd);
   return {
     week: weekLabel || "Anterior",
@@ -804,6 +912,39 @@ function addPlayerIfMissing(players, weekLabels, playerName) {
   return [...players, { player: playerName, weeks: zeroWeeks, total: 0 }];
 }
 
+function applyCompetitionToAnnual(competition, weekLabels, annualPlayersWithWeeks) {
+  if (!competition) {
+    return { weekLabels, annualPlayersWithWeeks };
+  }
+  const label = competition.week;
+  let nextWeekLabels = weekLabels;
+  let nextAnnualPlayers = annualPlayersWithWeeks;
+  if (!nextWeekLabels.includes(label)) {
+    nextWeekLabels = [...nextWeekLabels, label];
+    nextAnnualPlayers = nextAnnualPlayers.map(p => ({
+      ...p,
+      weeks: { ...p.weeks, [label]: 0 }
+    }));
+  }
+  competition.participants.forEach(participant => {
+    const idx = nextAnnualPlayers.findIndex(p => p.player === participant.name);
+    if (idx === -1) {
+      const weeks = Object.fromEntries(nextWeekLabels.map(w => [w, 0]));
+      weeks[label] = participant.totalPoints;
+      nextAnnualPlayers.push({
+        player: participant.name,
+        weeks,
+        total: participant.totalPoints
+      });
+      return;
+    }
+    const prevValue = Number(nextAnnualPlayers[idx].weeks[label] || 0);
+    nextAnnualPlayers[idx].weeks[label] = participant.totalPoints;
+    nextAnnualPlayers[idx].total += (participant.totalPoints - prevValue);
+  });
+  return { weekLabels: nextWeekLabels, annualPlayersWithWeeks: nextAnnualPlayers };
+}
+
 async function load() {
   const data = window.POKELIGA_DATA || await (await fetch("data.json")).json();
   let weekLabels = data.annual.weekLabels.slice();
@@ -833,51 +974,40 @@ async function load() {
   }
 
   const latestWeekStart = new Date(currentWeekStart);
-  if (competitionActive) {
-    latestWeekStart.setDate(latestWeekStart.getDate() - 7);
-  }
+  latestWeekStart.setDate(latestWeekStart.getDate() - 7);
   const latestWeekEnd = getDefaultEndDate(latestWeekStart);
   const latestWeekLabel = getWeekLabelFromStartDate(latestWeekStart);
-  const latestWeekTeams = buildWeeklyTeams(allPlayers, latestWeekStart);
-  const latestWeekCapture = await loadWeekCapture(getWeekStorageKey(latestWeekStart), latestWeekTeams);
-  const latestFromCapture = hasWeekCaptureData(latestWeekCapture)
-    ? buildCompetitionFromCapture(latestWeekCapture, latestWeekStart, latestWeekTeams, latestWeekCapture.weekLabel || latestWeekLabel)
+  const latestResolved = await resolveCompetitionCapture(latestWeekStart, allPlayers, latestWeekLabel);
+  const latestFromCapture = latestResolved
+    ? buildCompetitionFromCapture(
+      latestResolved.capture,
+      latestResolved.startDate,
+      latestResolved.teams,
+      latestResolved.weekLabel,
+      latestResolved.endDate
+    )
     : null;
 
   const prev2WeekStart = new Date(latestWeekStart);
   prev2WeekStart.setDate(prev2WeekStart.getDate() - 7);
-  const prev2WeekTeams = buildWeeklyTeams(allPlayers, prev2WeekStart);
-  const prev2WeekCapture = await loadWeekCapture(getWeekStorageKey(prev2WeekStart), prev2WeekTeams);
-  const historyFromCapture = hasWeekCaptureData(prev2WeekCapture)
-    ? [buildCompetitionFromCapture(prev2WeekCapture, prev2WeekStart, prev2WeekTeams, prev2WeekCapture.weekLabel || "Hace 2 semanas")]
+  const prev2WeekLabel = getWeekLabelFromStartDate(prev2WeekStart);
+  const prev2Resolved = await resolveCompetitionCapture(prev2WeekStart, allPlayers, prev2WeekLabel);
+  const historyFromCapture = prev2Resolved
+    ? [buildCompetitionFromCapture(
+      prev2Resolved.capture,
+      prev2Resolved.startDate,
+      prev2Resolved.teams,
+      prev2Resolved.weekLabel,
+      prev2Resolved.endDate
+    )]
     : [];
 
-  if (latestFromCapture) {
-    const label = latestFromCapture.week;
-    if (!weekLabels.includes(label)) {
-      weekLabels = [...weekLabels, label];
-      annualPlayersWithWeeks = annualPlayersWithWeeks.map(p => ({
-        ...p,
-        weeks: { ...p.weeks, [label]: 0 }
-      }));
-    }
-    latestFromCapture.participants.forEach(participant => {
-      const idx = annualPlayersWithWeeks.findIndex(p => p.player === participant.name);
-      if (idx === -1) {
-        const weeks = Object.fromEntries(weekLabels.map(w => [w, 0]));
-        weeks[label] = participant.totalPoints;
-        annualPlayersWithWeeks.push({
-          player: participant.name,
-          weeks,
-          total: participant.totalPoints
-        });
-      } else {
-        const prevValue = Number(annualPlayersWithWeeks[idx].weeks[label] || 0);
-        annualPlayersWithWeeks[idx].weeks[label] = participant.totalPoints;
-        annualPlayersWithWeeks[idx].total += (participant.totalPoints - prevValue);
-      }
-    });
-  }
+  [latestFromCapture, ...historyFromCapture].forEach(competition => {
+    const applied = applyCompetitionToAnnual(competition, weekLabels, annualPlayersWithWeeks);
+    weekLabels = applied.weekLabels;
+    annualPlayersWithWeeks = applied.annualPlayersWithWeeks;
+  });
+  weekLabels = weekLabels.slice().sort(compareWeekLabels);
   document.getElementById("generatedAt").textContent = `Actualizado: ${resolveLastUpdatedLabel(data.generatedAt, weekCapture.updatedAt)}`;
 
   const renderCurrentWeekMeta = () => {
@@ -909,8 +1039,8 @@ async function load() {
       ["Semana", "Actual", "Configuracion mock de la semana en curso."],
       ["Estado", competitionActive ? "Vigente" : "Fuera de ventana", "Solo se puede cargar/editar mientras la competencia esta vigente."],
       ["Desafio", resolveChallengeText(weekCapture.challenge), "Lo define el primer equipo que guarda."],
-      ["Inicio", formatDateTimeLabel(currentWeekStart), "La competencia arranca todos los martes a las 10:00."],
-      ["Fin", formatDateTimeLabel(currentWeekEnd), "Finaliza todos los lunes a las 21:00."]
+      ["Inicio", formatDateTimeLabel(currentWeekStart), "La competencia arranca todos los lunes a las 10:00."],
+      ["Fin", formatDateTimeLabel(currentWeekEnd), "Finaliza el lunes siguiente a las 10:00."]
     ];
     currentWeekMetaEl.innerHTML = buildMetaCards(currentWeekMeta);
   };
@@ -1015,7 +1145,7 @@ async function load() {
   if (!competitionActive) {
     openWeekAdmin.disabled = true;
     openWeekAdmin.textContent = "Carga cerrada (fuera de la semana vigente)";
-    openWeekAdmin.title = "La carga se habilita desde el martes 10:00 hasta el lunes 21:00.";
+    openWeekAdmin.title = "La carga se habilita desde el lunes 10:00 hasta el lunes siguiente a las 10:00.";
   }
 
   const closeModal = () => {
@@ -1170,7 +1300,7 @@ async function load() {
     });
 
   const latestMeta = [
-    ["Semana", latest.week, explainWeekLabel(latest.week)],
+    ["Semana", formatWeekWithYear(latest.week, latest.start), explainWeekLabel(latest.week)],
     ["Desafio", latest.challenge || "-", "Es el desafio de la semana."],
     ["Inicio", latest.start || "-", "Fecha y hora de inicio de la competencia."],
     ["Fin", latest.end || "-", "Fecha y hora de finalizacion oficial de la competencia."],
@@ -1216,9 +1346,16 @@ async function load() {
     const alreadyInHistory = historySource.some(w => w.week === dynamicWeek.week && w.start === dynamicWeek.start);
     if (!alreadyInHistory) historySource.unshift(dynamicWeek);
   });
+  historySource.sort((a, b) => {
+    const aDate = parseDisplayDate(a.start);
+    const bDate = parseDisplayDate(b.start);
+    if (!aDate && !bDate) return 0;
+    if (!aDate) return -1;
+    if (!bDate) return 1;
+    return bDate.getTime() - aDate.getTime();
+  });
 
   const historyHtml = historySource
-    .reverse()
     .map(week => {
       const teamsSorted = week.teams
         .slice()
@@ -1230,7 +1367,7 @@ async function load() {
           return a.position - b.position;
         });
       const weekMeta = [
-        ["Semana", week.week, explainWeekLabel(week.week)],
+        ["Semana", formatWeekWithYear(week.week, week.start), explainWeekLabel(week.week)],
         ["Desafio", week.challenge, "Es el desafio de la semana."],
         ["Inicio", week.start, "Fecha y hora de inicio de la competencia."],
         ["Fin", week.end, "Fecha y hora de finalizacion oficial de la competencia."],
@@ -1258,7 +1395,7 @@ async function load() {
       return `
         <details>
           <summary>
-            <strong>Semana ${week.week}</strong>
+            <strong>Semana ${formatWeekWithYear(week.week, week.start)}</strong>
             <span>${week.challenge}</span>
           </summary>
           <div class="history-content">
