@@ -1,1 +1,66 @@
-{}
+{
+  "pokeliga.week.2026-3-2-10": {
+    "challenge": "Gira 150 pokeparadas",
+    "targetTotal": 150,
+    "updatedAt": "2026-03-10T00:00:00.000Z",
+    "weekLabel": "1/3",
+    "teams": [
+      {
+        "team": "Naranja",
+        "players": [
+          "Abi",
+          "Edu",
+          "Facu",
+          "Gio"
+        ]
+      },
+      {
+        "team": "Amarillo",
+        "players": [
+          "Chiqui",
+          "Maru C",
+          "Maru M",
+          "Vicky"
+        ]
+      },
+      {
+        "team": "Celeste",
+        "players": [
+          "Estela",
+          "Lu",
+          "Nico",
+          "Samy"
+        ]
+      }
+    ],
+    "byTeam": {
+      "Naranja": {
+        "finishTime": "2026-03-03T19:50:00.000Z",
+        "playerPoints": {
+          "Abi": 40,
+          "Edu": 20,
+          "Facu": 60,
+          "Gio": 30
+        }
+      },
+      "Amarillo": {
+        "finishTime": "",
+        "playerPoints": {
+          "Chiqui": 0,
+          "Maru C": 0,
+          "Maru M": 0,
+          "Vicky": 0
+        }
+      },
+      "Celeste": {
+        "finishTime": "",
+        "playerPoints": {
+          "Estela": 0,
+          "Lu": 0,
+          "Nico": 0,
+          "Samy": 0
+        }
+      }
+    }
+  }
+}
